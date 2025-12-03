@@ -1,18 +1,21 @@
 import express from "express";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
+
+// Charger les variables d'environnement depuis .env
 dotenv.config();
 
 const router = express.Router();
 
-// Connexion Supabase
+// Connexion à Supabase
 const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_KEY
+    process.env.SUPABASE_URL,       // URL de ton projet Supabase
+    process.env.SUPABASE_SERVICE_KEY // Clé secrète Service Role Key
 );
 
 // ----------------------
 // GET /todos
+// Récupère toutes les todos de la table "todos" triées par id
 // ----------------------
 router.get("/", async (req, res) => {
     const { data, error } = await supabase
@@ -20,11 +23,12 @@ router.get("/", async (req, res) => {
         .select("*")
         .order("id", { ascending: true });
 
-    res.json(data || []);
+    res.json(data || []); // Renvoie un tableau vide si pas de données
 });
 
 // ----------------------
 // POST /todos
+// Crée une nouvelle todo avec title et completed
 // ----------------------
 router.post("/", async (req, res) => {
     const { title, completed } = req.body;
@@ -34,11 +38,12 @@ router.post("/", async (req, res) => {
         .insert([{ title: title || "", completed: completed || false }])
         .select();
 
-    res.json(data[0]);
+    res.json(data[0]); // Renvoie la todo créée
 });
 
 // ----------------------
 // PUT /todos/:id
+// Met à jour une todo existante par son id
 // ----------------------
 router.put("/:id", async (req, res) => {
     const id = req.params.id;
@@ -50,11 +55,12 @@ router.put("/:id", async (req, res) => {
         .eq("id", id)
         .select();
 
-    res.json(data[0]);
+    res.json(data[0]); // Renvoie la todo modifiée
 });
 
 // ----------------------
 // DELETE /todos/:id
+// Supprime une todo par son id
 // ----------------------
 router.delete("/:id", async (req, res) => {
     const id = req.params.id;
