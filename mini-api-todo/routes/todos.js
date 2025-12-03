@@ -13,23 +13,20 @@ const supabase = createClient(
     process.env.SUPABASE_SERVICE_KEY // Clé secrète Service Role Key
 );
 
-// ----------------------
-// GET /todos
-// Récupère toutes les todos de la table "todos" triées par id
-// ----------------------
+
+
+
 router.get("/", async (req, res) => {
     const { data, error } = await supabase
         .from("todos")
         .select("*")
         .order("id", { ascending: true });
 
-    res.json(data || []); // Renvoie un tableau vide si pas de données
+    res.json(data || []); 
 });
 
-// ----------------------
-// POST /todos
-// Crée une nouvelle todo avec title et completed
-// ----------------------
+
+
 router.post("/", async (req, res) => {
     const { title, completed } = req.body;
 
@@ -41,10 +38,9 @@ router.post("/", async (req, res) => {
     res.json(data[0]); // Renvoie la todo créée
 });
 
-// ----------------------
-// PUT /todos/:id
-// Met à jour une todo existante par son id
-// ----------------------
+
+
+
 router.put("/:id", async (req, res) => {
     const id = req.params.id;
     const { title, completed } = req.body;
@@ -55,13 +51,12 @@ router.put("/:id", async (req, res) => {
         .eq("id", id)
         .select();
 
-    res.json(data[0]); // Renvoie la todo modifiée
+    res.json(data[0]); 
 });
 
-// ----------------------
-// DELETE /todos/:id
-// Supprime une todo par son id
-// ----------------------
+
+
+
 router.delete("/:id", async (req, res) => {
     const id = req.params.id;
 
