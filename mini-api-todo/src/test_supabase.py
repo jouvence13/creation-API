@@ -14,7 +14,7 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 try:
     supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
     # simple requête pour tester la connexion
-    response = supabase.table("test_connection").select("*").limit(1).execute()
+    response = supabase.table("todos").select("*").limit(1).execute()
 
     print("Connexion à Supabase réussie")
     print("Réponse :", response.data)
