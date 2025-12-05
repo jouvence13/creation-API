@@ -74,3 +74,8 @@ npm start
 L'API sera accessible à l'adresse :
 
 http://localhost:3000
+
+
+MEMBRES DU GROUPE:
+AKODE JOUVENCE 
+MIHINHAYI AUREOL 
