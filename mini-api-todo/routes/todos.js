@@ -2,20 +2,17 @@ import express from "express";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 
-// Charger les variables d'environnement depuis .env
 dotenv.config();
 
 const router = express.Router();
 
-// Connexion à Supabase
 const supabase = createClient(
-    process.env.SUPABASE_URL,       // URL de ton projet Supabase
-    process.env.SUPABASE_SERVICE_KEY // Clé secrète Service Role Key
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_KEY
 );
 
 // ----------------------
 // GET /todos
-// Récupère toutes les todos de la table "todos" triées par id
 // ----------------------
 router.get("/", async (req, res) => {
     const { data, error } = await supabase
@@ -23,54 +20,66 @@ router.get("/", async (req, res) => {
         .select("*")
         .order("id", { ascending: true });
 
-    res.json(data || []); // Renvoie un tableau vide si pas de données
+    if (error) return res.status(400).json({ error: error.message });
+
+    res.json(data || []);
 });
 
 // ----------------------
 // POST /todos
-// Crée une nouvelle todo avec title et completed
 // ----------------------
 router.post("/", async (req, res) => {
     const { title, completed } = req.body;
 
-    const { data } = await supabase
+    const { data, error } = await supabase
         .from("todos")
         .insert([{ title: title || "", completed: completed || false }])
         .select();
 
-    res.json(data[0]); // Renvoie la todo créée
+    if (error) return res.status(400).json({ error: error.message });
+
+    res.json(data[0]);
 });
 
 // ----------------------
 // PUT /todos/:id
-// Met à jour une todo existante par son id
 // ----------------------
 router.put("/:id", async (req, res) => {
     const id = req.params.id;
     const { title, completed } = req.body;
 
-    const { data } = await supabase
+    const { data, error } = await supabase
         .from("todos")
         .update({ title, completed })
         .eq("id", id)
         .select();
 
-    res.json(data[0]); // Renvoie la todo modifiée
+    if (error) {
+        console.error(error);
+        return res.status(400).json({ error: error.message });
+    }
+
+    if (!data || data.length === 0) {
+        return res.status(404).json({ error: "Todo non trouvée" });
+    }
+
+    res.json(data[0]);
 });
 
 // ----------------------
 // DELETE /todos/:id
-// Supprime une todo par son id
 // ----------------------
 router.delete("/:id", async (req, res) => {
     const id = req.params.id;
 
-    await supabase
+    const { error } = await supabase
         .from("todos")
         .delete()
         .eq("id", id);
 
-    res.json({ message: "Todo supprimé" });
+    if (error) return res.status(400).json({ error: error.message });
+
+    res.json({ message: "Todo supprimée" });
 });
 
 export default router;
