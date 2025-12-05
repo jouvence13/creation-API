@@ -1,169 +1,909 @@
+jouvence_
+jouvence_
+En ligne
+
+jouvence_ — 10:16
+Aureol_kingston — 10:16
+jouvence_
+ a commencé un appel qui a duré 35 minutes. — 10:16
+jouvence_ — 10:49
+yo
+Aureol_kingston — 10:52
+il y a une erreur dans le code je viens de corriger
+je fais le push
+et tu recupere avant de continuer
+jouvence_ — 11:42
+modifie le front si tu veux
+Aureol_kingston — 13:27
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard Todos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Todos - Gestionnaire de Tâches</title>
+Afficher plus
+22 Ko
+﻿
+Aureol_kingston
+aureol_kingston_53267
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Todos - Gestionnaire de Tâches</title>
 <style>
-  * { box-sizing: border-box; }
-  body {
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  
+  * { 
+    box-sizing: border-box;
     margin: 0;
-    font-family: Arial;
-    background: #121826;
-    color: #eee;
-    padding: 30px;
+    padding: 0;
   }
 
-  h1 { color: #4fc3f7; }
+  :root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #8b5cf6;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --bg-card-hover: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border: #334155;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: var(--text-primary);
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeInDown 0.6s ease;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 400;
+  }
 
   .stats {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
-    margin: 20px 0;
+    margin-bottom: 30px;
+    animation: fadeInUp 0.6s ease 0.2s both;
   }
 
   .card {
-    background: #1e2538;
-    padding: 20px;
-    border-radius: 8px;
-    flex: 1;
+    background: var(--bg-card);
+    padding: 24px;
+    border-radius: 16px;
     text-align: center;
-  }
-  .card span {
-    display: block;
-    font-size: 26px;
-    margin-top: 8px;
-    font-weight: bold;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
-  input {
-    width: 70%;
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
-    margin-right: 10px;
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.2);
+    border-color: var(--primary);
   }
 
-  button {
-    padding: 10px 15px;
+  .card-title {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .card.total .card-value { color: var(--primary); }
+  .card.done .card-value { color: var(--success); }
+  .card.left .card-value { color: var(--warning); }
+
+  .controls {
+    background: var(--bg-card);
+    padding: 24px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border);
+    animation: fadeInUp 0.6s ease 0.4s both;
+  }
+
+  .input-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  input, select {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  input::placeholder {
+    color: var(--text-secondary);
+  }
+
+  .btn {
+    padding: 12px 24px;
     border: none;
-    border-radius: 6px;
-    background: #4fc3f7;
+    border-radius: 10px;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  }
+
+  .btn-success {
+    background: var(--success);
+    color: white;
+  }
+
+  .btn-danger {
+    background: var(--danger);
+    color: white;
+  }
+
+  .btn-secondary {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-small {
+    padding: 8px 12px;
+    font-size: 0.875rem;
+  }
+
+  .filters {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .filter-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-dark);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+  }
+
+  .filter-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  .filter-btn:hover {
+    border-color: var(--primary);
+    color: var(--text-primary);
+  }
+
+  .search-box {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding-left: 40px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+  }
+
+  .todos-container {
+    animation: fadeInUp 0.6s ease 0.6s both;
+  }
+
+  .todos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .todos-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .sort-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .sort-select-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .sort-select {
+    padding: 12px 40px 12px 16px;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    appearance: none;
+    min-width: 200px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .sort-select:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .sort-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  .sort-select-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+  }
+
+  .sort-select-wrapper:hover .sort-select-icon {
+    color: var(--primary);
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  .sort-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .sort-label-icon {
+    font-size: 1rem;
   }
 
   ul {
     list-style: none;
     padding: 0;
-    margin-top: 20px;
   }
 
   li {
-    background: #202940;
+    background: var(--bg-card);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px;
-    border-radius: 6px;
-    margin-bottom: 10px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+    animation: slideIn 0.3s ease;
   }
 
-  .completed {
+  li:hover {
+    transform: translateX(4px);
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  li.completed {
+    opacity: 0.6;
+  }
+
+  .todo-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .todo-text {
+    flex: 1;
+    word-break: break-word;
+  }
+
+  .todo-text.completed {
     text-decoration: line-through;
-    opacity: .6;
+    color: var(--text-secondary);
   }
 
-  .btn-del {
-    background: #ef5350;
-    color: white;
+  .todo-edit-input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--primary);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-size: 1rem;
   }
-  .btn-toggle {
-    background: #66bb6a;
-    color: white;
+
+  .todo-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .priority-badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .priority-high { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+  .priority-medium { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+  .priority-low { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+  }
+
+  .empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+  }
+
+  .spinner {
+    border: 3px solid var(--border);
+    border-top: 3px solid var(--primary);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+    
+    .input-group {
+      flex-direction: column;
+    }
+
+    input, select, .search-box {
+      width: 100%;
+    }
+
+    .todo-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .todo-actions {
+      width: 100%;
+      justify-content: flex-end;
+    }
+
+    .todos-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .sort-container {
+      width: 100%;
+    }
+
+    .sort-select {
+      width: 100%;
+    }
   }
 </style>
 </head>
 
 <body>
+  <div class="container">
+    <header>
+      <h1>✨ Dashboard TODOS</h1>
+      <p class="subtitle">Gérez vos tâches efficacement</p>
+    </header>
 
-  <h1>Dashboard TODOS</h1>
+    <div class="stats">
+      <div class="card total">
+        <div class="card-title">Total</div>
+        <div class="card-value" id="countTotal">0</div>
+      </div>
+      <div class="card done">
+        <div class="card-title">Terminées</div>
+        <div class="card-value" id="countDone">0</div>
+      </div>
+      <div class="card left">
+        <div class="card-title">Restantes</div>
+        <div class="card-value" id="countLeft">0</div>
+      </div>
+    </div>
 
-  <div class="stats">
-    <div class="card">Total <span id="countTotal">0</span></div>
-    <div class="card">Terminées <span id="countDone">0</span></div>
-    <div class="card">Restantes <span id="countLeft">0</span></div>
+    <div class="controls">
+      <div class="input-group">
+        <input 
+          id="todoTitle" 
+          type="text" 
+          placeholder="Ajouter une nouvelle tâche..." 
+          onkeypress="if(event.key === 'Enter') createTodo()"
+        />
+        
+        <button class="btn btn-primary" onclick="createTodo()">
+          ➕ Ajouter
+        </button>
+      </div>
+
+      <div class="filters">
+        <button class="filter-btn active" onclick="setFilter('all')">Toutes</button>
+        <button class="filter-btn" onclick="setFilter('active')">Actives</button>
+        <button class="filter-btn" onclick="setFilter('completed')">Terminées</button>
+      </div>
+
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input 
+          id="searchInput" 
+          type="text" 
+          placeholder="Rechercher une tâche..." 
+          oninput="filterTodos()"
+        />
+      </div>
+    </div>
+
+    <div class="todos-container">
+      <div class="todos-header">
+        <h2>Mes Tâches</h2>
+        <div class="sort-container">
+          <div class="sort-label">
+            <span class="sort-label-icon">🔀</span>
+            <span>Trier par</span>
+          </div>
+          <div class="sort-select-wrapper">
+            <select class="sort-select" id="sortSelect" onchange="loadTodos()">
+              <option value="newest">🆕 Plus récentes</option>
+              <option value="oldest">⏰ Plus anciennes</option>
+              <option value="priority">⭐ Par priorité</option>
+              <option value="alphabetical">🔤 Alphabétique</option>
+            </select>
+            <span class="sort-select-icon">▼</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="loading" class="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>Chargement...</p>
+      </div>
+
+      <ul id="todos"></ul>
+    </div>
   </div>
-
-  <input id="todoTitle" placeholder="Nouvelle tâche..." />
-  <button onclick="createTodo()">Ajouter</button>
-
-  <ul id="todos"></ul>
 
 <script>
 const API_URL = "http://localhost:3000/todos";
 
-async function loadTodos() {
-  const res = await fetch(API_URL);
-  const todos = await res.json();
+let allTodos = [];
+let currentFilter = 'all';
+let searchQuery = '';
 
+// Charger toutes les tâches
+async function loadTodos() {
+  const loadingEl = document.getElementById('loading');
+  const todosEl = document.getElementById('todos');
+  
+  loadingEl.style.display = 'block';
+  todosEl.innerHTML = '';
+
+  try {
+    const res = await fetch(API_URL);
+    allTodos = await res.json();
+    
+    // Trier les tâches
+    const sortBy = document.getElementById('sortSelect').value;
+    allTodos = sortTodos(allTodos, sortBy);
+    
+    updateStats();
+    renderTodos();
+  } catch (error) {
+    console.error('Erreur lors du chargement:', error);
+    todosEl.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div><p>Erreur lors du chargement des tâches</p></div>';
+  } finally {
+    loadingEl.style.display = 'none';
+  }
+}
+
+// Trier les tâches
+function sortTodos(todos, sortBy) {
+  const sorted = [...todos];
+  
+  switch(sortBy) {
+    case 'newest':
+      return sorted.sort((a, b) => (b.id || 0) - (a.id || 0));
+    case 'oldest':
+      return sorted.sort((a, b) => (a.id || 0) - (b.id || 0));
+    case 'priority':
+      const priorityOrder = { high: 3, medium: 2, low: 1 };
+      return sorted.sort((a, b) => {
+        const aPriority = priorityOrder[a.priority] || 0;
+        const bPriority = priorityOrder[b.priority] || 0;
+        return bPriority - aPriority;
+      });
+    case 'alphabetical':
+      return sorted.sort((a, b) => a.title.localeCompare(b.title));
+    default:
+      return sorted;
+  }
+}
+
+// Filtrer les tâches
+function filterTodos() {
+  searchQuery = document.getElementById('searchInput').value.toLowerCase();
+  renderTodos();
+}
+
+// Définir le filtre
+function setFilter(filter) {
+  currentFilter = filter;
+  
+  // Mettre à jour les boutons actifs
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  renderTodos();
+}
+
+// Rendre les tâches
+function renderTodos() {
   const list = document.getElementById("todos");
   list.innerHTML = "";
 
-  // Stats
-  const total = todos.length;
-  const done = todos.filter(t => t.completed).length;
-  const left = total - done;
-  document.getElementById("countTotal").innerText = total;
-  document.getElementById("countDone").innerText = done;
-  document.getElementById("countLeft").innerText = left;
+  // Filtrer les tâches
+  let filteredTodos = allTodos.filter(todo => {
+    // Filtre par statut
+    if (currentFilter === 'active' && todo.completed) return false;
+    if (currentFilter === 'completed' && !todo.completed) return false;
+    
+    // Filtre par recherche
+    if (searchQuery && !todo.title.toLowerCase().includes(searchQuery)) {
+      return false;
+    }
+    
+    return true;
+  });
 
-  todos.forEach(todo => {
+  if (filteredTodos.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📝</div><p>Aucune tâche trouvée</p></div>';
+    return;
+  }
+
+  filteredTodos.forEach(todo => {
     const li = document.createElement("li");
+    if (todo.completed) li.classList.add('completed');
+    
+    const priority = todo.priority || 'high';
+    const priorityLabels = { high: 'Haute', medium: 'Moyenne', low: 'Basse' };
+    
     li.innerHTML = `
-      <span class="${todo.completed ? 'completed' : ''}">
-        ${todo.title}
-      </span>
-      <div>
-        <button class="btn-toggle" onclick="toggleTodo(${todo.id}, ${todo.completed})">
-          ${todo.completed ? "✔" : "⏳"}
+      <div class="todo-content">
+        <span class="todo-text ${todo.completed ? 'completed' : ''}" id="todo-text-${todo.id}">
+          ${escapeHtml(todo.title)}
+        </span>
+        <input 
+          type="text" 
+          class="todo-edit-input" 
+          id="todo-edit-${todo.id}" 
+          value="${escapeHtml(todo.title)}"
+          style="display: none;"
+          onkeypress="if(event.key === 'Enter') saveEdit(${todo.id})"
+          onblur="saveEdit(${todo.id})"
+        />
+      </div>
+      <div class="todo-actions">
+        ${!todo.completed ? `
+        <button class="btn btn-success btn-small" onclick="completeTodo(${todo.id})" title="Terminer la tâche" style="font-weight: 600;">
+          ✓ Terminer
         </button>
-        <button class="btn-del" onclick="deleteTodo(${todo.id})">🗑</button>
+        ` : ''}
+        <button class="btn btn-success btn-small" onclick="toggleTodo(${todo.id}, ${todo.completed})" title="${todo.completed ? 'Marquer comme active' : 'Marquer comme terminée'}">
+          ${todo.completed ? '↩️' : '✓'}
+        </button>
+        <button class="btn btn-secondary btn-small" onclick="editTodo(${todo.id})" title="Modifier">
+          ✏️
+        </button>
+        <button class="btn btn-danger btn-small" onclick="confirmDelete(${todo.id})" title="Supprimer">
+          🗑️
+        </button>
       </div>
     `;
     list.appendChild(li);
   });
 }
 
+// Mettre à jour les statistiques
+function updateStats() {
+  const total = allTodos.length;
+  const done = allTodos.filter(t => t.completed).length;
+  const left = total - done;
+  
+  document.getElementById("countTotal").innerText = total;
+  document.getElementById("countDone").innerText = done;
+  document.getElementById("countLeft").innerText = left;
+}
+
+// Créer une nouvelle tâche
 async function createTodo() {
-  const title = document.getElementById("todoTitle").value;
-  if (!title.trim()) return;
+  const titleInput = document.getElementById("todoTitle");
+  const prioritySelect = document.getElementById("todoPriority");
+  const title = titleInput.value.trim();
+  
+  if (!title) {
+    titleInput.focus();
+    return;
+  }
 
-  await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title })
-  });
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        title,
+        completed: false,
+        priority: prioritySelect.value || 'high'
+      })
+    });
 
-  document.getElementById("todoTitle").value = "";
-  loadTodos();
+    titleInput.value = "";
+    loadTodos();
+  } catch (error) {
+    console.error('Erreur lors de la création:', error);
+    alert('Erreur lors de la création de la tâche');
+  }
 }
 
+// Supprimer une tâche avec confirmation
 async function deleteTodo(id) {
-  await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-  loadTodos();
+  try {
+    await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    loadTodos();
+  } catch (error) {
+    console.error('Erreur lors de la suppression:', error);
+    alert('Erreur lors de la suppression de la tâche');
+  }
 }
 
+function confirmDelete(id) {
+  if (confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')) {
+    deleteTodo(id);
+  }
+}
+
+// Terminer une tâche
+async function completeTodo(id) {
+  try {
+    const todo = allTodos.find(t => t.id === id);
+    await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        completed: true,
+        title: todo.title,
+        priority: todo.priority || 'high'
+      })
+    });
+    loadTodos();
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour:', error);
+    alert('Erreur lors de la mise à jour de la tâche');
+  }
+}
+
+// Basculer le statut d'une tâche
 async function toggleTodo(id, completed) {
-  await fetch(`${API_URL}/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ completed: !completed })
-  });
-  loadTodos();
+  try {
+    const todo = allTodos.find(t => t.id === id);
+    await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        completed: !completed,
+        title: todo.title,
+        priority: todo.priority || 'high'
+      })
+    });
+    loadTodos();
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour:', error);
+    alert('Erreur lors de la mise à jour de la tâche');
+  }
 }
 
+// Éditer une tâche
+function editTodo(id) {
+  const textEl = document.getElementById(`todo-text-${id}`);
+  const inputEl = document.getElementById(`todo-edit-${id}`);
+  
+  textEl.style.display = 'none';
+  inputEl.style.display = 'block';
+  inputEl.focus();
+  inputEl.select();
+}
+
+// Sauvegarder l'édition
+async function saveEdit(id) {
+  const textEl = document.getElementById(`todo-text-${id}`);
+  const inputEl = document.getElementById(`todo-edit-${id}`);
+  const newTitle = inputEl.value.trim();
+  
+  if (!newTitle) {
+    inputEl.style.display = 'none';
+    textEl.style.display = 'block';
+    return;
+  }
+
+  try {
+    const todo = allTodos.find(t => t.id === id);
+    await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        title: newTitle,
+        completed: todo.completed,
+        priority: todo.priority || 'high'
+      })
+    });
+    
+    textEl.textContent = newTitle;
+    inputEl.style.display = 'none';
+    textEl.style.display = 'block';
+    loadTodos();
+  } catch (error) {
+    console.error('Erreur lors de l\'édition:', error);
+    alert('Erreur lors de l\'édition de la tâche');
+  }
+}
+
+// Échapper le HTML pour éviter les injections
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Charger les tâches au démarrage
 loadTodos();
 </script>
 
 </body>
 </html>
+message.txt
+22 Ko
