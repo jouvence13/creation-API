@@ -15,7 +15,7 @@ class TestOperations(unittest.TestCase):
 
     def test_format_nom(self):
         self.assertEqual(format_nom("Jouvence", "akode"), "Jouvence AKODE")
-        self.assertEqual(format_nom("  aureol ", " kingston "), "Aureol KINGSTON")
+        self.assertEqual(format_nom("  aureol ", " kingston "), "Auréol KINGSTON")
 
 
 if __name__ == "__main__":

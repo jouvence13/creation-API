@@ -7,7 +7,7 @@ def addition(a, b):
 
 
 def maximum(nombres):
-    """Retourne la valeur maximale d'une séquence; None si elle est vide."""
+    """Retourne la valeur maximale d'une séquence; Non si elle est vide."""
     if not nombres:
         return None
     return max(nombres)
