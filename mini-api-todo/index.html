@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Todos</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial;
+    background: #121826;
+    color: #eee;
+    padding: 30px;
+  }
+
+  h1 { color: #4fc3f7; }
+
+  .stats {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+  }
+
+  .card {
+    background: #1e2538;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    text-align: center;
+  }
+  .card span {
+    display: block;
+    font-size: 26px;
+    margin-top: 8px;
+    font-weight: bold;
+  }
+
+  input {
+    width: 70%;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    margin-right: 10px;
+  }
+
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    background: #4fc3f7;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+
+  li {
+    background: #202940;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+
+  .completed {
+    text-decoration: line-through;
+    opacity: .6;
+  }
+
+  .btn-del {
+    background: #ef5350;
+    color: white;
+  }
+  .btn-toggle {
+    background: #66bb6a;
+    color: white;
+  }
+</style>
+</head>
+
+<body>
+
+  <h1>Dashboard TODOS</h1>
+
+  <div class="stats">
+    <div class="card">Total <span id="countTotal">0</span></div>
+    <div class="card">Terminées <span id="countDone">0</span></div>
+    <div class="card">Restantes <span id="countLeft">0</span></div>
+  </div>
+
+  <input id="todoTitle" placeholder="Nouvelle tâche..." />
+  <button onclick="createTodo()">Ajouter</button>
+
+  <ul id="todos"></ul>
+
+<script>
+const API_URL = "http://localhost:3000/todos";
+
+async function loadTodos() {
+  const res = await fetch(API_URL);
+  const todos = await res.json();
+
+  const list = document.getElementById("todos");
+  list.innerHTML = "";
+
+  // Stats
+  const total = todos.length;
+  const done = todos.filter(t => t.completed).length;
+  const left = total - done;
+  document.getElementById("countTotal").innerText = total;
+  document.getElementById("countDone").innerText = done;
+  document.getElementById("countLeft").innerText = left;
+
+  todos.forEach(todo => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span class="${todo.completed ? 'completed' : ''}">
+        ${todo.title}
+      </span>
+      <div>
+        <button class="btn-toggle" onclick="toggleTodo(${todo.id}, ${todo.completed})">
+          ${todo.completed ? "✔" : "⏳"}
+        </button>
+        <button class="btn-del" onclick="deleteTodo(${todo.id})">🗑</button>
+      </div>
+    `;
+    list.appendChild(li);
+  });
+}
+
+async function createTodo() {
+  const title = document.getElementById("todoTitle").value;
+  if (!title.trim()) return;
+
+  await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title })
+  });
+
+  document.getElementById("todoTitle").value = "";
+  loadTodos();
+}
+
+async function deleteTodo(id) {
+  await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+  loadTodos();
+}
+
+async function toggleTodo(id, completed) {
+  await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ completed: !completed })
+  });
+  loadTodos();
+}
+
+loadTodos();
+</script>
+
+</body>
+</html>

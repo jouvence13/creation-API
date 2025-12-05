@@ -19,3 +19,15 @@ Ce projet consiste à créer une API RESTful simple pour gérer une liste de tâ
 - Mettre à jour une tâche
 - Supprimer une tâche
 ## Technologies Utilisées
+-Node.js
+-Express
+-supabase (pour la base de données)
+-Python (pour les tests)
+## Installation
+1. Cloner le dépôt GitHub :
+   ```bash
+   git clone https://github.com/ton-utilisateur/creation-API.git
+    cd creation-API/mini-api-todo
+    ``` 
+2. Installer les dépendances :
+
