@@ -501,7 +501,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>✨ Dashboard TODOS</h1>
+      <h1>Dashboard TODOS</h1>
       <p class="subtitle">Gérez vos tâches efficacement</p>
     </header>
 
@@ -684,7 +684,6 @@ function renderTodos() {
     if (todo.completed) li.classList.add('completed');
     
     const priority = todo.priority || 'high';
-    const priorityLabels = { high: 'Haute', medium: 'Moyenne', low: 'Basse' };
     
     li.innerHTML = `
       <div class="todo-content">
